@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int            @id @default(sequence())
+  email      String         @unique
+  name       String
+  created_at DateTime       @default(now())
+  events     Event[]        @relation("User_Events")
+  regs       Registration[]
+}
+
+model Event {
+  id          Int      @id @default(sequence())
+  title       String   @unique
+  description String
+  date_time   DateTime
+  location    String
+  maxCapacity Int
+  created_at  DateTime @default(now())
+  created_by  Int
+
+  creator User           @relation("User_Events", fields: [created_by], references: [id])
+  regs    Registration[]
+}
+
+model Registration {
+  id                Int      @id @default(sequence())
+  registration_date DateTime @default(now())
+  Status            String   @default("registered")
+
+  user_id  Int
+  event_id Int
+
+  User  User  @relation(fields: [user_id], references: [id])
+  Event Event @relation(fields: [event_id], references: [id])
+}
