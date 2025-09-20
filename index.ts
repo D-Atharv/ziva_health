@@ -1,12 +1,16 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+import { connectDB } from "./config/db";
+import { ENV } from "./config/env";
+import authRoutes from "./routes/auth.routes";
+
 const app = express();
+connectDB();
 
-app.get("/", (_, resp) => {
-  resp.json({
-    message: "hello world",
-  });
-});
+app.use(express.json()).use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("port is listening 3000");
+app.use("/api/auth", authRoutes);
+
+app.listen(ENV.PORT, () => {
+  console.log(`Server running on port ${ENV.PORT}`);
 });
