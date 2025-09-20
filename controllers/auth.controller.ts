@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
 import { registerUser, loginUser } from "../services/auth.service";
 import { setTokenCookie, clearTokenCookie } from "../utils/cookie";
-import { registerValidator, loginValidator } from "../utils/validator";
+import { validateBody } from "../validations/validation";
+import { registerValidator, loginValidator } from "../validations/validator";
 
 export async function register(req: Request, res: Response) {
   try {
-    const { error, value } = registerValidator.validate(req.body);
-    if (error) return res.status(400).json({ error: error.message });
+    const value = validateBody(registerValidator, req.body);
 
     const token = await registerUser(value.name, value.email, value.password);
 
@@ -20,8 +20,7 @@ export async function register(req: Request, res: Response) {
 
 export async function login(req: Request, res: Response) {
   try {
-    const { error, value } = loginValidator.validate(req.body);
-    if (error) return res.status(400).json({ error: error.message });
+    const value = validateBody(loginValidator, req.body);
 
     const token = await loginUser(value.email, value.password);
 
