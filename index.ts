@@ -13,7 +13,15 @@ connectDB();
 app
   .use(express.json())
   .use(cookieParser())
-  .use(cors({ origin: "*" }));
+  .use(
+    cors({
+      origin: [
+        "https://ziva-alpha.vercel.app",
+        "http://localhost:3000",
+        "https://eventhub.atharvd.in",
+      ],
+    })
+  );
 app
   .use("/api/auth", authRoutes)
   .use("/api", registrationRoutes)
