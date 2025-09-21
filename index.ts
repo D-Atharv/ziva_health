@@ -20,6 +20,7 @@ app
         "http://localhost:3000",
         "https://eventhub.atharvd.in",
       ],
+      credentials: true,
     })
   );
 app
