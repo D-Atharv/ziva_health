@@ -10,28 +10,10 @@ import registrationRoutes from "./routes/registration.route.js";
 const app = express();
 connectDB();
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://ziva-health-dks6.onrender.com",
-  "https://eventhub.athard.in",
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
-      }
-    },
-    credentials: true,
-  })
-);
-
-app.use(express.json()).use(cookieParser());
+app
+  .use(express.json())
+  .use(cookieParser())
+  .use(cors({ origin: "*" }));
 app
   .use("/api/auth", authRoutes)
   .use("/api", registrationRoutes)
