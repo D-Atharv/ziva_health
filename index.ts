@@ -12,18 +12,24 @@ connectDB();
 
 app.use(express.json()).use(cookieParser());
 
+const allowedOrigins = [
+  "https://ziva-alpha.vercel.app",
+  "http://localhost:3000",
+  "https://eventhub.atharvd.in",
+];
+
 const corsOptions = {
-  origin: [
-    "https://ziva-alpha.vercel.app",
-    "http://localhost:3000",
-    "https://eventhub.atharvd.in",
-  ],
+  origin: (origin: string | undefined, callback: Function) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error("CORS not allowed"));
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 app
   .use("/api/auth", authRoutes)
   .use("/api", registrationRoutes)
