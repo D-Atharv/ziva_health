@@ -12,7 +12,7 @@ connectDB();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://ziva-alpha.vercel.app",
+  "https://ziva-health-dks6.onrender.com",
   "https://eventhub.athard.in",
 ];
 
