@@ -25,10 +25,8 @@ export async function createEvent(
   return event;
 }
 
-export async function listUpcomingEvents() {
-  const now = new Date();
+export async function listAllEvents() {
   const events = await prisma.event.findMany({
-    where: { dateTime: { gte: now } },
     orderBy: { dateTime: "asc" },
     include: { registrations: true },
   });

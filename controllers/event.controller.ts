@@ -30,7 +30,7 @@ export async function createEvent(req: AuthRequest, res: Response) {
 
 export async function listEvents(req: Request, res: Response) {
   try {
-    const events = await eventService.listUpcomingEvents();
+    const events = await eventService.listAllEvents();
     res.json(events);
   } catch (err: any) {
     res.status(400).json({ error: err.message });

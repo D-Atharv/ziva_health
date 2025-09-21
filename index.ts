@@ -15,11 +15,10 @@ app
   .use(cookieParser())
   .use(
     cors({
-      origin: "http://localhost:3000", // frontend URL
+      origin: ["http://localhost:3000", "https://ziva-alpha.vercel.app/"],
       credentials: true,
     })
   );
-
 app
   .use("/api/auth", authRoutes)
   .use("/api", registrationRoutes)
