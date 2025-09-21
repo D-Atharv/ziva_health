@@ -1,7 +1,7 @@
-import { prisma } from "../config/db";
+import { prisma } from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { ENV } from "../config/env";
+import { ENV } from "../config/env.js";
 
 const SALT_ROUNDS = 10;
 

@@ -1,11 +1,11 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { connectDB } from "./config/db";
-import { ENV } from "./config/env";
-import authRoutes from "./routes/auth.routes";
-import registrationRoutes from "./routes/registration.route";
-import eventRoutes from "./routes/event.routes";
+import { connectDB } from "./config/db.js";
+import { ENV } from "./config/env.js";
+import authRoutes from "./routes/auth.routes.js";
+import eventRoutes from "./routes/event.routes.js";
+import registrationRoutes from "./routes/registration.route.js";
 
 const app = express();
 connectDB();

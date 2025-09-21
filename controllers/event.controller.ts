@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-import type { AuthRequest } from "../middlewares/auth.middleware";
-import * as eventService from "../services/event.service";
+import type { AuthRequest } from "../middlewares/auth.middleware.js";
+import * as eventService from "../services/event.service.js";
 import {
   createEventValidator,
   updateEventValidator,
   eventIdParamValidator,
-} from "../validations/validator";
-import { validateBody, validateParams } from "../validations/validation";
+} from "../validations/validator.js";
+import { validateBody, validateParams } from "../validations/validation.js";
 
 export async function createEvent(req: AuthRequest, res: Response) {
   try {

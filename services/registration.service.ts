@@ -1,4 +1,4 @@
-import { prisma } from "../config/db";
+import { prisma } from "../config/db.js";
 
 export async function registerForEvent(userId: number, eventId: number) {
   return await prisma.$transaction(async (tx) => {

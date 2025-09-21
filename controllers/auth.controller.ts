@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
-import { registerUser, loginUser } from "../services/auth.service";
-import { setTokenCookie, clearTokenCookie } from "../utils/cookie";
-import { validateBody } from "../validations/validation";
-import { registerValidator, loginValidator } from "../validations/validator";
-import { prisma } from "../config/db";
-import type { AuthRequest } from "../middlewares/auth.middleware";
+import { registerUser, loginUser } from "../services/auth.service.js";
+import { setTokenCookie, clearTokenCookie } from "../utils/cookie.js";
+import { validateBody } from "../validations/validation.js";
+import { registerValidator, loginValidator } from "../validations/validator.js";
+import { prisma } from "../config/db.js";
+import type { AuthRequest } from "../middlewares/auth.middleware.js";
 
 export async function register(req: Request, res: Response) {
   try {

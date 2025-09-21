@@ -1,11 +1,11 @@
 import type { Request, Response } from "express";
-import type { AuthRequest } from "../middlewares/auth.middleware";
-import * as registrationService from "../services/registration.service";
-import { validateParams } from "../validations/validation";
+import type { AuthRequest } from "../middlewares/auth.middleware.js";
+import * as registrationService from "../services/registration.service.js";
+import { validateParams } from "../validations/validation.js";
 import {
   eventIdParamValidator,
   userIdParamValidator,
-} from "../validations/validator";
+} from "../validations/validator.js";
 
 export async function register(req: AuthRequest, res: Response) {
   try {
