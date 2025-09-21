@@ -10,19 +10,20 @@ import registrationRoutes from "./routes/registration.route.js";
 const app = express();
 connectDB();
 
-app
-  .use(express.json())
-  .use(cookieParser())
-  .use(
-    cors({
-      origin: [
-        "https://ziva-alpha.vercel.app",
-        "http://localhost:3000",
-        "https://eventhub.atharvd.in",
-      ],
-      credentials: true,
-    })
-  );
+app.use(express.json()).use(cookieParser());
+
+const corsOptions = {
+  origin: [
+    "https://ziva-alpha.vercel.app",
+    "http://localhost:3000",
+    "https://eventhub.atharvd.in",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app
   .use("/api/auth", authRoutes)
   .use("/api", registrationRoutes)
