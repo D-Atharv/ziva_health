@@ -1,29 +1,28 @@
 import { prisma } from "../config/db";
 
 export async function registerForEvent(userId: number, eventId: number) {
-  const event = await prisma.event.findUnique({
-    where: { id: eventId },
-    include: { registrations: true },
+  return await prisma.$transaction(async (tx) => {
+    const event = await tx.event.findUnique({ where: { id: eventId } });
+    if (!event) throw new Error("Event not found");
+
+    const existing = await tx.registration.findUnique({
+      where: { userId_eventId: { userId, eventId } },
+    });
+    if (existing) throw new Error("You are already registered for this event");
+
+    const registrationCount = await tx.registration.count({
+      where: { eventId },
+    });
+
+    if (registrationCount >= event.maxCapacity)
+      throw new Error("Event is full");
+
+    const registration = await tx.registration.create({
+      data: { userId, eventId, status: "registered" },
+    });
+
+    return registration;
   });
-  if (!event) throw new Error("Event not found");
-
-  const existingReg = await prisma.registration.findUnique({
-    where: { userId_eventId: { userId, eventId } },
-  });
-  if (existingReg) throw new Error("You are already registered for this event");
-
-  if (event.registrations.length >= event.maxCapacity)
-    throw new Error("Event is full");
-
-  const registration = await prisma.registration.create({
-    data: {
-      userId,
-      eventId,
-      status: "registered",
-    },
-  });
-
-  return registration;
 }
 
 export async function cancelRegistration(userId: number, eventId: number) {
@@ -40,14 +39,12 @@ export async function cancelRegistration(userId: number, eventId: number) {
 }
 
 export async function getUserRegistrations(userId: number) {
-    const registrations = await prisma.registration.findMany({
-        where: { userId },
-        include: {
-            event: true,
-        },
-    });
-    if (registrations.length === 0) {
-        throw new Error("No registrations found for this user");
-    }
-    return registrations;
+  const registrations = await prisma.registration.findMany({
+    where: { userId },
+    include: {
+      event: true,
+    },
+  });
+
+  return registrations;
 }

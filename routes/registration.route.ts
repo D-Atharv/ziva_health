@@ -14,3 +14,4 @@ router
   .get("/users/:userId/registrations", authenticate, getUserRegs);
 
 export default router;
+  

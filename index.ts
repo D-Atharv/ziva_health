@@ -10,7 +10,15 @@ import eventRoutes from "./routes/event.routes";
 const app = express();
 connectDB();
 
-app.use(express.json()).use(cookieParser()).use(cors());
+app
+  .use(express.json())
+  .use(cookieParser())
+  .use(
+    cors({
+      origin: "http://localhost:3000", // frontend URL
+      credentials: true,
+    })
+  );
 
 app
   .use("/api/auth", authRoutes)
